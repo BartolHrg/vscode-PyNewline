@@ -1,0 +1,64 @@
+{
+  "name": "pynewline",
+  "displayName": "PyNewline",
+  "description": "patch for pylance to not remove indentation",
+  "version": "0.0.0",
+  "repository": {
+    "url": "https://github.com/BartolHrg/vscode-PyNewline",
+    "type": "git"
+  },
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "icon": "images/icon.ico",
+  "publisher": "BartolHrg",
+  "categories": [
+    "Other"
+  ],
+  "galleryBanner": {
+    "color": "#0000FF",
+    "theme": "dark"
+  },
+  "bugs": {
+    "url": "https://github.com/BartolHrg/vscode-PyNewline/issues",
+    "email": "bartol.hrg.backup@gmail.com"
+  },
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "pynewline.pyNewline",
+        "title": "PyNewline"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "pynewline.pyNewline",
+        "key": "enter",
+        "mac": "enter",
+        "when": "editorTextFocus && !editorReadonly && editorLangId == 'python'"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "prim": "npm run compile && npm run lint && node ./out/test/primitiveTest.test.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.88.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  }
+}
