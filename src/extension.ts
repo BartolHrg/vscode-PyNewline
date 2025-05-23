@@ -12,10 +12,10 @@ function* zip<T extends any[]>(...iterables: { [K in keyof T]: Iterable<T[K]> })
 	}
 }
 
-class Inserter {
+export class Inserter {
 	private logger = vscode.window.createOutputChannel("PyNewline log");
 	public async processNewline() {
-		this.logger.show(true);
+		//	this.logger.show(true);
 		const text_editor = vscode.window.activeTextEditor;
 		this.log("we have text editor:", text_editor !== undefined);
 		if (text_editor === undefined) { return; }
@@ -40,7 +40,7 @@ class Inserter {
 			
 			let diff_diff = 1;
 			
-			const max = sel.start.character
+			const max = sel.start.character;
 			let base_indent = this.getIndent(line, max);
 			let indent = base_indent;
 			let active_index = base_indent.length;
@@ -80,14 +80,14 @@ class Inserter {
 	}
 	
 	private log(prefix: string, msg: any) {
-		this.logger.appendLine(prefix + " " + JSON.stringify(msg));
+		//	this.logger.appendLine(prefix + " " + JSON.stringify(msg));
 	}
 	
 	private getIndent(line: string, max: number): string {
 		let endex = 0;
 		while (endex < max) {
 			const c = line.charAt(endex);
-			if (c == " " || c == "\t") {
+			if (c === " " || c === "\t") {
 				++endex;
 			} else {
 				break;

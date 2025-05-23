@@ -2,7 +2,7 @@
   "name": "pynewline",
   "displayName": "PyNewline",
   "description": "patch for pylance to not remove indentation",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/BartolHrg/vscode-PyNewline",
     "type": "git"
