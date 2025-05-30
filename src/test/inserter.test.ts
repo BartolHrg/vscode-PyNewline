@@ -62,8 +62,8 @@ suite("Inserter Tests", function () {
 	this.beforeAll(prepare);
 
 	test("insert after colon", async () => {
-		await setContents("\tdef f():", " end");
-		const expected = "\tdef f():\n\t\t\n\tpass end";
+		await setContents("\tdef f():", "# cur\n end");
+		const expected = "\tdef f():\n\t\t# cur\n\tpass\n end";
 		const inserter = new Inserter();
 		
 		await inserter.processNewline();
@@ -73,7 +73,7 @@ suite("Inserter Tests", function () {
 	});
 	test("insert after paren", async () => {
 		await setContents("\t[something", "]");
-		const expected = "\t[something\n\t\t\n\t]";
+		const expected =  "\t[something\n\t\t\n\t]";
 		const inserter = new Inserter();
 		
 		await inserter.processNewline();
@@ -84,7 +84,7 @@ suite("Inserter Tests", function () {
 
 	test("dont insert after inline colon", async () => {
 		await setContents("\tdef f(): something", " end");
-		const expected = "\tdef f(): something\n\t end";
+		const expected =  "\tdef f(): something\n\t end";
 		const inserter = new Inserter();
 		
 		await inserter.processNewline();
@@ -94,7 +94,39 @@ suite("Inserter Tests", function () {
 	});
 	test("dont insert after closed paren", async () => {
 		await setContents("\t[something]", "]");
-		const expected = "\t[something]\n\t]";
+		const expected =  "\t[something]\n\t]";
+		const inserter = new Inserter();
+		
+		await inserter.processNewline();
+		
+		const result = getContents(expected.length);
+		assert.strictEqual(result, expected);
+	});
+
+	test("dont insert after string", async () => {
+		await setContents("\t'['something", "]");
+		const expected =  "\t'['something\n\t]";
+		const inserter = new Inserter();
+		
+		await inserter.processNewline();
+		
+		const result = getContents(expected.length);
+		assert.strictEqual(result, expected);
+	});
+
+	test("dont insert after comment - colon", async () => {
+		await setContents("\tdef f()#:", " end");
+		const expected =  "\tdef f()#:\n\t end";
+		const inserter = new Inserter();
+		
+		await inserter.processNewline();
+		
+		const result = getContents(expected.length);
+		assert.strictEqual(result, expected);
+	});
+	test("dont insert after comment - paren", async () => {
+		await setContents("\t#[something", "]");
+		const expected =  "\t#[something\n\t]";
 		const inserter = new Inserter();
 		
 		await inserter.processNewline();
