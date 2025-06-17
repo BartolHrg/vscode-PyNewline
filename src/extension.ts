@@ -81,12 +81,20 @@ export class Inserter {
 					if (additional_line.endsWith("\n")) { additional_line = additional_line.slice(0, -1); }
 					this.log("additi lin:", additional_line);
 					const edit_range = new Range(sel.start, sel.end.translate(0, additional_line.length));
-					let closer = base_indent + "pass";
-					if (next_line.startsWith(closer) || next_line.startsWith(indent)) {
+					let closer;
+					const dedents = [
+						indent,
+						base_indent + "pass", 
+						base_indent + "elif", 
+						base_indent + "else",
+						base_indent + "except",
+						base_indent + "finally",
+					];
+					if (dedents.some(ded => next_line.startsWith(ded))) {
 						closer = "";
 						diff_diff = 1;
 					} else {
-						closer = "\n" + closer;
+						closer = "\n" + base_indent + "pass";
 						diff_diff = 2;
 					}
 					edits.push([edit_range, "\n" + indent + additional_line + closer ]);
